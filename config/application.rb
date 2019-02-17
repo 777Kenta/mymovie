@@ -24,5 +24,8 @@ module TechReviewSite
 
     # Precompile additional assets
     config.assets.precompile += %w( .svg .eot .woff .ttf )
+
+    config.time_zone = 'Tokyo'
+    config.i18n.default_locale = :ja
   end
 end

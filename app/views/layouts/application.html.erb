@@ -2,8 +2,9 @@
 <html class="pc" lang="ja" xmlns:fb="http://ogp.me/ns/fb#" xmlns:og="http://ogp.me/ns#">
   <head>
     <meta charset="utf-8">
-      <title>映画レビューサイト</title>
+      <title>MyMovie</title>
       <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet' type='text/css'>
+      <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
       <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
       <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
       <%= csrf_meta_tags %>
@@ -16,7 +17,7 @@
           <div class="globalnav__menu">
             <ul class="gmenu">
               <li class="logo" style="float: left">
-                <a href="/">mooovi</a>
+                <a href="/"><%= image_tag('movie.jpeg', :size => "25x25") %> MyMovie</a>
               </li>
             </ul>
           </div>

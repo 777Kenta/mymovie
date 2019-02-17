@@ -2,12 +2,28 @@
     <div id="yjContentsBody">
       <div class="yjContainer">
         <span class="yjGuid"><a id="yjContentsStart" name="yjContentsStart"></a><img alt="ここから本文です" height="1" src="http://i.yimg.jp/yui/jp/tmpl/1.1.0/audionav.gif" width="1"></span>
-        <div id="yjMain">
+        <div class="p-sidebar__container" style="float:left;padding:0px 10px">
+          <h2 class="c-heading-2" style="font-size:15px"><i class="fas fa-search"></i> 映画を探す</h2>
+          <div class="p-sidebar__main" style="border:1px solid #eee;background-color:#fff">
+            <nav class="c-side-menu">
+              <ul class="c-side-list" style="margin:0;padding:0">
+                <% @contents.each do |content|  %>
+                <li class="c-side-menu__item">
+                  <h3 class="c-side-menu__item__title">
+                    <a href=""><%= content %></a>
+                  </h3>
+                </li>
+                <% end %>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div id="yjMain" style="float:left">
           <article class="section">
             <div class="container">
               <header class="header header--section">
                 <h2 class="text-middle">
-                  <i class="icon-movie color-gray-light"></i>新着作品
+                  <i class="icon-movie color-gray-light"></i> おすすめ公開中映画
                 </h2>
               </header>
               <ul class="thumbnails thumbnail--movies row grid4 js-lazy-load-images js-my-check-stats" id="list-module">
@@ -16,12 +32,20 @@
                     <a href="/products/<%= product.id %>"><div class="thumbnail__figure" style="background-image:url(<%= product.image_url %>)"></div></a>
                     <div class="thumbnail__caption">
                       <h3 class="text-xsmall text-overflow" title="タイトル">
-                        タイトル
+                        <%= product.title %>
                       </h3>
-                      <p class="text-small">
+                      <p class="text-small" style="float:left">
+                        <% if product.reviews.present? %>
                         <span class="rating-star">
-                          <i class="star-actived rate-[ここに評価を表示]0"></i>
+                          <i class="star-actived rate-<%= product.reviews.average(:rate).round %>0"></i>
                         </span>
+                        <p style="color:#F5A624;float:right"><%= product.reviews.average(:rate).round(1) %></p>
+                        <% else %>
+                        <span class="rating-star">
+                          <i class="star-actived rate-0"></i>
+                        </span>
+                        <p style="color:rgba(0, 0, 0, 0.1);float:right">0.0</p>
+                        <% end %>
                       </p>
                     </div>
                   </li>

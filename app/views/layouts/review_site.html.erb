@@ -2,8 +2,9 @@
 <html class="pc" lang="ja" xmlns:fb="http://ogp.me/ns/fb#" xmlns:og="http://ogp.me/ns#">
   <head>
     <meta charset="utf-8">
-      <title>映画レビューサイト</title>
+      <title>MyMovie</title>
       <link href='http://fonts.googleapis.com/css?family=Signika:700,300,400,600' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
       <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
       <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
       <%= csrf_meta_tags %>
@@ -16,10 +17,18 @@
           <div class="globalnav__menu">
             <ul class="gmenu">
               <li class="logo" style="float: left">
-                <a href="/">mooovi</a>
+                <a href="/"><%= image_tag('movie.jpeg', :size => "25x25") %> MyMovie</a>
               </li>
+              <% if user_signed_in? %>
+                <li class="entry_button" style="float: right">
+                  <a rel="nofollow" data-method="delete" href="/users/sign_out"><i class="fas fa-sign-out-alt"></i> ログアウト</a>
+                </li>
+                <li class="entry_button" style="float: right">
+                  <a href="/users/<%= current_user.id %>"><i class="fas fa-user"></i> マイページ</a>
+                </li>
+              <% end %>
               <li class="entry_button" style="float: right">
-                <a href="/products/search">投稿する</a>
+                <a href="/products/search"><i class="fas fa-pen"></i> 投稿する</a>
               </li>
             </ul>
           </div>
@@ -29,10 +38,10 @@
         <%= yield %>
           <aside class="section">
             <h4 class="text-small hr-bottom--thin no-space-bottom">
-              <i class="icon-crown color-gray-light"></i>投稿ランキング
+              <i class="icon-crown color-gray-light"></i> 今話題の映画TOP5
             </h4>
             <ul class="listview listview--condensed text-small">
-              <% [].each.with_index(1) do |product, i| %>
+              <% @ranking.each.with_index(1) do |product, i| %>
               <li data-cinema-id="346394">
                 <a href="/products/<%= product.id %>">
                   <div class="box">
@@ -59,7 +68,7 @@
   </div>
 
         <div class="copyright">
-          Copyright (C) 2015  XXX Corporation. All Rights Reserved.
+          Copyright (C) 2019  XXX Corporation. All Rights Reserved.
         </div>
       </div>
     </div>

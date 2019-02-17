@@ -1,0 +1,11 @@
+<div class="like-link" id="like-link-<%= review.id %>" style="float:right">
+  <% if current_user.likes.find_by(review_id: review.id) %>
+    <%= link_to product_review_like_path(review_id: review.id, product_id: review.product_id, id: current_user.id), method: :delete, remote: true do %>
+      <div class = "iine__button" style="margin-right:850px"><i class="fas fa-heart"></i><%= review.likes.count %></div>
+    <% end %>
+  <% else %>
+    <%= link_to product_review_likes_path(review_id: review.id, product_id: review.product_id), method: :post, remote: true  do %>
+      <div class = "iine__button" style="margin-right:850px"><i class="far fa-heart"></i><%= review.likes.count %></div>
+    <% end %>
+  <% end %>
+</div>

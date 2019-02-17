@@ -7,34 +7,75 @@
             <div class="container">
               <header class="header header--section">
                 <h2 class="text-middle">
-                  <i class="icon-movie color-gray-light"></i><%= @product.title %>
+                  <i class="icon-movie color-gray-light"></i> <%= @product.title %>
                 </h2>
               </header>
-              <p style="text-align: center">
-                <img src="<%= @product.image_url %>" alt="<%= @product.title %>">
-              </p>
-              <div style="text-align: right">
-                <a href="">この作品を投稿する</a>
+              <div style="text-align">
+                <div class="movie_img">
+                  <img src="<%= @product.image_url %>" alt="<%= @product.title %>">
+                </div>
+                <div class="movie_contents">
+                  <div class="movie_content_rate">
+                    <span style="font-size:20px"><h2 class="text-middle">総評価</h2></span>
+                    <p class="text-small" style="font-size:20px;padding-left:15px;float:left">
+                      <% if @product.reviews.present? %>
+                      <span class="rating-star">
+                        <i class="star-actived rate-<%= @product.reviews.average(:rate).round %>0"></i>
+                      </span>
+                      <p style="color:#F5A624;float:right;padding: 3px 0px 0px 15px;font-size: 20px"><%= @product.reviews.average(:rate).round(1) %></p>
+                      <% else %>
+                      <span class="rating-star">
+                        <i class="star-actived rate-0"></i>
+                      </span>
+                      <p style="color:rgba(0, 0, 0, 0.1);float:right;padding: 3px 0px 0px 15px;font-size: 20px">0.0</p>
+                      <% end %>
+                    </p>
+                  </div>
+                  <div class="movie_content_detail" style="clear:both">
+                    <span style="font-size:50px"><h2 class="text-middle" style="padding-top:10px">あらすじ</h2></span>
+                    <p style="font-size:15px;width:600px;padding-left:20px"><%= @product.detail %></p>
+                    <span style="font-size:50px"><h2 class="text-middle" style="padding-top:10px">監督</h2></span>
+                    <p style="font-size:15px;padding-left:20px"><%= @product.director %></p>
+                  </div>  
+                </div>
+                <div style="clear:both;padding-top:20px">
+                  <h2 class="text-middle" style="margin-bottom:1em;border-bottom:3px solid #d7dbe2"><i class="icon-movie color-gray-light"></i> 本予告編</h2>
+                  <iframe width="560" height="315" src="https://www.youtube.com/embed/<%= @product.link %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div style="text-align:right">
+                  <a href="/products/<%= @product.id %>/reviews/new">この作品を投稿する</a>
+                </div>
               </div>
               <header class="header header--section">
                 <h2 class="text-middle">
-                  <i class="icon-movie color-gray-light"></i>みんなのレビュー
+                  <i class="icon-movie color-gray-light"></i> みんなのレビュー
                 </h2>
               </header>
               <ul style="padding: 0">
-                <li style="border-bottom: dotted 1px">
+                <% @product.reviews.each do |review| %>
+                <li style="border-bottom: dotted 1px;list-style:none">
                   <div class="thumbnail__caption">
-                    <h3 class="text-xsmall text-overflow" title="テスト太郎">
-                      </span>テスト太郎<small 2014=""></small>
+                    <h3 class="text-xsmall text-overflow" title="<%= review.user.nickname %>">
+                      <div class="user__avatar">
+                        <%= image_tag review.user.avatar.url(:thumb),:size => "50x50" %>
+                      </div>
+                      <div class="user___content">
+                        <p><%= review.nickname %></p>
+                        <p><%= review.created_at.strftime('%Y/%m/%d %H:%M') %></p>
+                      </div>
                     </h3>
-                    <p class="text-small">
-                      <span class="rating-star"><i class="star-actived rate-[ここに評価を表示]0"></i></span>
-                    </p>
-                    <p>
-                      面白い！
+                    <div class="review-star" style="float:left">
+                      <p class="text-small">
+                        <span class="rating-star"><i class="star-actived rate-<%= review.rate %>0"></i></span>
+                      </p>
+                    </div>
+                    <%= render partial: 'likes/like', locals: { review: review } %>
+                    <p style="clear:both">
+                      <%= review.review %>
                     </p>
                   </div>
                 </li>
+                <% end %>
               </ul>
             </div>
           </article>
